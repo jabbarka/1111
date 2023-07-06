@@ -1,0 +1,348 @@
+// Базовый класс Животное
+public class Animal {
+    private String name;
+    private int age;
+    
+    public Animal(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public int getAge() {
+        return age;
+    }
+    
+    // Метод подачи голоса
+    public void makeSound() {
+        System.out.println("Животное издает звук");
+    }
+    
+    // Метод питания
+    public void eat(int foodAmount) {
+        System.out.println("Животное ест " + foodAmount + " еды");
+    }
+    
+    // Метод движения
+    public void move() {
+        System.out.println("Животное двигается");
+    }
+}
+
+
+// Подкласс Пес
+public class Dog extends Animal {
+    private String breed;
+    
+    public Dog(String name, int age, String breed) {
+        super(name, age);
+        this.breed = breed;
+    }
+    
+    public String getBreed() {
+        return breed;
+    }
+    
+    // Переопределение метода подачи голоса
+    @Override
+    public void makeSound() {
+        System.out.println("Собака лает");
+    }
+}
+
+
+// Подкласс Кот
+public class Cat extends Animal {
+    private String color;
+    
+    public Cat(String name, int age, String color) {
+        super(name, age);
+        this.color = color;
+    }
+    
+    public String getColor() {
+        return color;
+    }
+    
+    // Переопределение метода подачи голоса
+    @Override
+    public void makeSound() {
+        System.out.println("Кот мяукает");
+    }
+}
+
+
+// Пример использования классов
+public class AnimalTest {
+    public static void main(String[] args) {
+        Animal[] animals = new Animal[4];
+        animals[0] = new Dog("Шарик", 3, "дворовая");
+        animals[1] = new Cat("Мурка", 5, "рыжая");
+        animals[2] = new Dog("Рекс", 2, "овчарка");
+        animals[3] = new Cat("Барсик", 3, "черная");
+        
+        for (Animal animal : animals) {
+            animal.eat(2);
+            animal.makeSound();
+        }
+    }
+}
+Структура с наследованием по аналогии с животными и банковскими счетами:
+
+// Базовый класс Счет
+public class Account {
+    private int accountNumber;
+    private double balance;
+    
+    public Account(int accountNumber, double balance) {
+        this.accountNumber = accountNumber;
+        this.balance = balance;
+    }
+    
+    public int getAccountNumber() {
+        return accountNumber;
+    }
+    
+    public double getBalance() {
+        return balance;
+    }
+    
+    // Метод пополнения счета
+    public void deposit(double amount) {
+        balance += amount;
+        System.out.println("Счет " + accountNumber + " пополнен на " + amount);
+    }
+    
+    // Метод снятия со счета
+    public void withdraw(double amount) {
+        if (amount <= balance) {
+            balance -= amount;
+            System.out.println("Со счета " + accountNumber + " снято " + amount);
+        } else {
+            System.out.println("Недостаточно средств на счете " + accountNumber);
+        }
+    }
+}
+
+// Подкласс Банковский счет с овердрафтом
+public class OverdraftAccount extends Account {
+    private double overdraftLimit;
+    
+    public OverdraftAccount(int accountNumber, double balance, double overdraftLimit) {
+        super(accountNumber, balance);
+        this.overdraftLimit = overdraftLimit;
+    }
+    
+    public double getOverdraftLimit() {
+        return overdraftLimit;
+    }
+    
+    // Переопределение метода снятия со счета
+    @Override
+    public void withdraw(double amount) {
+        if (amount <= getBalance() + overdraftLimit) {
+            if (amount <= getBalance()) {
+                super.withdraw(amount);
+            } else {
+                double overdraftAmount = amount - getBalance();
+                double remainingBalance = 0;
+                super.withdraw(getBalance());
+                
+                System.out.println("Со счета " + getAccountNumber() + " снято " + (amount - overdraftAmount) + " и использован овердрафт в размере " + overdraftAmount);
+            }
+        } else {
+            System.out.println("Недостаточно средств на счете " + getAccountNumber() + " и овердрафте");
+        }
+    }
+}
+
+// Пример использования классов
+public class BankAccountTest {
+    public static void main(String[] args) {
+        Account[] accounts = new Account[3];
+        accounts[0] = new Account(1001, 5000);
+        accounts[1] = new OverdraftAccount(1002, 2000, 1000);
+        accounts[2] = new Account(1003, 10000);
+        
+        for (Account account : accounts) {
+            account.withdraw(3000);
+            account.deposit(1000);
+        }
+    }
+}
+Результат в формате markdown:
+
+// Базовый класс Животное
+public class Animal {
+    private String name;
+    private int age;
+    
+    public Animal(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+    
+    public String getName() {
+        return name;
+    }
+    
+    public int getAge() {
+        return age;
+    }
+    
+    // Метод подачи голоса
+    public void makeSound() {
+        System.out.println("Животное издает звук");
+    }
+    
+    // Метод питания
+    public void eat(int foodAmount) {
+        System.out.println("Животное ест " + foodAmount + " еды");
+    }
+    
+    // Метод движения
+    public void move() {
+        System.out.println("Животное двигается");
+    }
+}
+
+// Подкласс Пес
+public class Dog extends Animal {
+    private String breed;
+    
+    public Dog(String name, int age, String breed) {
+        super(name, age);
+        this.breed = breed;
+    }
+    
+    public String getBreed() {
+        return breed;
+    }
+    
+    // Переопределение метода подачи голоса
+    @Override
+    public void makeSound() {
+        System.out.println("Собака лает");
+    }
+}
+
+// Подкласс Кот
+public class Cat extends Animal {
+    private String color;
+    
+    public Cat(String name, int age, String color) {
+        super(name, age);
+        this.color = color;
+    }
+    
+    public String getColor() {
+        return color;
+    }
+    
+    // Переопределение метода подачи голоса
+    @Override
+    public void makeSound() {
+        System.out.println("Кот мяукает");
+    }
+}
+
+// Пример использования классов
+public class AnimalTest {
+    public static void main(String[] args) {
+        Animal[] animals = new Animal[4];
+        animals[0] = new Dog("Шарик", 3, "дворовая");
+        animals[1] = new Cat("Мурка", 5, "рыжая");
+        animals[2] = new Dog("Рекс", 2, "овчарка");
+        animals[3] = new Cat("Барсик", 3, "черная");
+        
+        for (Animal animal : animals) {
+            animal.eat(2);
+            animal.makeSound();
+        }
+    }
+}
+
+// Базовый класс Счет
+public class Account {
+    private int accountNumber;
+    private double balance;
+    
+    public Account(int accountNumber, double balance) {
+        this.accountNumber = accountNumber;
+        this.balance = balance;
+    }
+    
+    public int getAccountNumber() {
+        return accountNumber;
+    }
+    
+    public double getBalance() {
+        return balance;
+    }
+    
+    // Метод пополнения счета
+    public void deposit(double amount) {
+        balance += amount;
+        System.out.println("Счет " + accountNumber + " пополнен на " + amount);
+    }
+    
+    // Метод снятия со счета
+    public void withdraw(double amount) {
+        if (amount <= balance) {
+            balance -= amount;
+            System.out.println("Со счета " + accountNumber + " снято " + amount);
+        } else {
+            System.out.println("Недостаточно средств на счете " + accountNumber);
+        }
+    }
+}
+
+// Подкласс Банковский счет с овердрафтом
+public class OverdraftAccount extends Account {
+    private double overdraftLimit;
+    
+    public OverdraftAccount(int accountNumber, double balance, double overdraftLimit) {
+        super(accountNumber, balance);
+        this.overdraftLimit = overdraftLimit;
+    }
+    
+    public double getOverdraftLimit() {
+        return overdraftLimit;
+    }
+    
+    // Переопределение метода снятия со счета
+    @Override
+    public void withdraw(double amount) {
+        if (amount <= getBalance() + overdraftLimit) {
+            if (amount <= getBalance()) {
+                super.withdraw(amount);
+            } else {
+                double overdraftAmount = amount - getBalance();
+                double remainingBalance = 0;
+                super.withdraw(getBalance());
+                
+                System.out.println("Со счета " + getAccountNumber() + " снято " + (amount - overdraftAmount) + " и использован овердрафт в размере " + overdraftAmount);
+            }
+        } else {
+            System.out.println("Недостаточно средств на счете " + getAccountNumber() + " и овердрафте");
+        }
+    }
+}
+
+// Пример использования классов
+public class BankAccountTest {
+    public static void main(String[] args) {
+        Account[] accounts = new Account[3];
+        accounts[0] = new Account(1001, 5000);
+        accounts[1] = new OverdraftAccount(1002, 2000, 1000);
+        accounts[2] = new Account(1003, 10000);
+        
+        for (Account account : accounts) {
+            account.withdraw(3000);
+            account.deposit(1000);
+        }
+    }
+}
